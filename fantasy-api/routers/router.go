@@ -1,15 +1,17 @@
 package routers
 
 import (
-	"fantasy-api/controllers"
+	"fantasy-api/controllers/users"
 	"github.com/astaxie/beego"
 )
 
 func init() {
-	// fe v1 version
+
+	// fe stand v1 version
 	namespaceV1Routers := beego.NewNamespace("/api/v1",
 		beego.NSNamespace("/users",
-			beego.NSInclude(&controllers.UserController{}),
+			beego.NSInclude(&users.UserController{}),
+			beego.NSInclude(&users.CaptchaController{}),
 		),
 	)
 

@@ -23,6 +23,7 @@ func init() {
 	orm.RegisterModel(
 		new(Group),
 		new(User),
+		new(URLFrequencyLimit),
 	)
 
 	// table sync

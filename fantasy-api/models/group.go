@@ -5,7 +5,7 @@ import "time"
 type Group struct {
 	Id          int
 	Name        string    `orm:"size(20);unique;column(name)"json:"name"`
-	Email       string    `orm:"null"json:"email"`
+	Users       []*Author `orm:"reverse(many)" json:"users"`
 	CreateTime  time.Time `orm:"auto_now_add;type(datetime)" json:"createTime,omitempty"`
 	UpdateTime  time.Time `orm:"auto_now;type(datetime)" json:"updateTime,omitempty"`
 	Description string    `orm:"null"json:"description"`

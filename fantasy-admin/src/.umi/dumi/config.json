@@ -1,0 +1,42 @@
+{
+  "menus": {
+    "en-US": {
+      "*": [
+        {
+          "path": "/~docs",
+          "title": "Ant Design Pro",
+          "meta": {
+            "order": null
+          }
+        },
+        {
+          "title": "Components",
+          "path": "/~docs/components",
+          "meta": {},
+          "children": [
+            {
+              "path": "/~docs/components",
+              "title": "业务组件",
+              "meta": {}
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "locales": [
+    {
+      "name": "en-US",
+      "label": "English"
+    }
+  ],
+  "navs": {},
+  "title": "ant-design-pro",
+  "mode": "doc",
+  "repository": {
+    "url": "",
+    "branch": "master"
+  },
+  "theme": {},
+  "exportStatic": {}
+}

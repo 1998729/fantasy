@@ -7,12 +7,14 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
+	"k8s.io/klog"
 	"strconv"
 )
 
 const (
-	// captcha cache key
+	// UserCaptchaCacheKey captcha cache key
 	UserCaptchaCacheKey = "user_captcha_%s_by_%s"
+	UserEmailCaptchaKey = "user_email_%s_captcha"
 )
 
 var (
@@ -57,6 +59,20 @@ func increUserLimitCache(r UserAccessURIInfo) error {
 	return nil
 }
 
+func SetIncr(key string) error {
+	cache.AutoIncr(key)
+	return nil
+}
+
+func GetIncr(key string) (int64, error) {
+	if s, err := cache.GET(key); err != nil {
+		return 0, err
+	} else {
+		n, _ := strconv.ParseInt(s, 10, 64)
+		return n, nil
+	}
+}
+
 func GetCaptchaByCache(r UserAccessURIInfo) ([]byte, error) {
 	var err error
 	var text string
@@ -73,6 +89,19 @@ func GetCaptchaByCache(r UserAccessURIInfo) ([]byte, error) {
 	}
 
 	text = GetRandStr(captchaLength)
+
+	klog.Infof("user captcha: %s", text)
+
 	_, err = cache.SET(text, 0, utils.TimeGranularityConversion(captchaExpired))
 	return ImgText(text), err
+}
+
+func IsValid(text string) bool {
+	val, _ := cache.GET(text)
+	if len(val) == 0 {
+		return false
+	}
+
+	cache.DELETE(text)
+	return true
 }

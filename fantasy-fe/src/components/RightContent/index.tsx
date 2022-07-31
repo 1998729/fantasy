@@ -1,12 +1,28 @@
-import { Space } from 'antd';
+import { Space, Modal,Divider } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import React from 'react';
-import { useModel, SelectLang } from 'umi';
+import { useModel, history } from 'umi';
 import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
 
 export type SiderTheme = 'light' | 'dark';
+
+function info() {
+  Modal.info({
+    width: 600,
+    title: '需要帮助?',
+    content: (
+      <div>
+        <p>如技术相关、职场相关问题咨询或交流可与我联系(请备注来源)</p>
+        <p><b>QQ:</b> 1301927919</p>
+        <p><b>Email:</b> 1301927919@qq.com</p>
+        <p><b>Wechat:</b> ellisoncool7</p>
+      </div>
+    ),
+    onOk() {},
+  });
+}
 
 const GlobalHeaderRight: React.FC = () => {
   const { initialState } = useModel('@@initialState');
@@ -25,37 +41,21 @@ const GlobalHeaderRight: React.FC = () => {
     <Space className={className}>
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
-        placeholder="站内搜索"
-        defaultValue="umi ui"
-        options={[
-          { label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>, value: 'umi ui' },
-          {
-            label: <a href="next.ant.design">Ant Design</a>,
-            value: 'Ant Design',
-          },
-          {
-            label: <a href="https://protable.ant.design/">Pro Table</a>,
-            value: 'Pro Table',
-          },
-          {
-            label: <a href="https://prolayout.ant.design/">Pro Layout</a>,
-            value: 'Pro Layout',
-          },
-        ]}
-        // onSearch={value => {
-        //   console.log('input', value);
-        // }}
+        placeholder="请输入文章关键字"
+        onSearch={value => {
+          if (!value) {
+            return
+          }
+          window.location.href = `/search/${value}`
+       }}
       />
       <span
         className={styles.action}
-        onClick={() => {
-          window.open('https://pro.ant.design/docs/getting-started');
-        }}
+        onClick={info}
       >
         <QuestionCircleOutlined />
       </span>
       <Avatar />
-      <SelectLang className={styles.action} />
     </Space>
   );
 };

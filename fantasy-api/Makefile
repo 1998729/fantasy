@@ -21,3 +21,6 @@ push: build-image
 
 machine-build:
 	go build -o ./bin/$(app)
+
+machine-linux-build:
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o fantasy-api

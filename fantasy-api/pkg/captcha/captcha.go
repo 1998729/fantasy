@@ -11,7 +11,7 @@ import (
 
 func ImgText(text string) (b []byte) {
 	width, _ := beego.AppConfig.Int("captcha_width")
-	height, _ := beego.AppConfig.Int("captcha_heigth")
+	height, _ := beego.AppConfig.Int("captcha_height")
 
 	textLen := len(text)
 	dc := gg.NewContext(width, height)

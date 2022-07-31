@@ -22,8 +22,21 @@ func init() {
 	// register model
 	orm.RegisterModel(
 		new(Group),
+		new(Author),
 		new(User),
 		new(URLFrequencyLimit),
+		new(URLWhitelist),
+		new(Category),
+		new(Tag),
+		new(Comment),
+		new(Article),
+		new(UserLikeArticle),
+		new(UserFollowers),
+		new(PrivateMessage),
+		new(UserLogin),
+		new(UserOperationRecord),
+		new(AccessRecord),
+		new(Blacklist),
 	)
 
 	// table sync

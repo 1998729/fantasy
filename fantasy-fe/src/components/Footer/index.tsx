@@ -1,37 +1,41 @@
-import { useIntl } from 'umi';
 import { GithubOutlined } from '@ant-design/icons';
 import { DefaultFooter } from '@ant-design/pro-layout';
+import {Space} from "antd";
 
-export default () => {
-  const intl = useIntl();
-  const defaultMessage = intl.formatMessage({
-    id: 'app.copyright.produced',
-    defaultMessage: '蚂蚁集团体验技术部出品',
-  });
+const copyRight = () => {
+  const currentYear = new Date().getFullYear();
+  return (
+    <Space>
+      {currentYear} FANTASY
+      <span>
+        ICP：
+        <a href="https://beian.miit.gov.cn/" target="_blank">黑ICP备2022001949号-1</a>
+      </span>
+
+    </Space>
+  )
+}
+const Footer: React.FC = () => {
 
   return (
     <DefaultFooter
-      copyright={`2020 ${defaultMessage}`}
+      copyright={copyRight()}
       links={[
         {
-          key: 'Ant Design Pro',
-          title: 'Ant Design Pro',
-          href: 'https://pro.ant.design',
+          key: 'CSDN',
+          title: 'CSDN',
+          href: 'https://blog.csdn.net/yyy72999/',
           blankTarget: true,
         },
         {
           key: 'github',
           title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
+          href: 'https://github.com/YuZongYangHi',
           blankTarget: true,
-        },
-        {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
-          blankTarget: true,
-        },
+        }
       ]}
     />
   );
 };
+
+export default Footer;

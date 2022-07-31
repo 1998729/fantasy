@@ -1,14 +1,102 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from 'umi';
-import { history, Link } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
-import { BookOutlined, LinkOutlined } from '@ant-design/icons';
+import defaultSettings from '../config/defaultSettings';
+import {HeaderTopRoutersRequest} from '@/services/category/router'
+import BackgroundComponent from '@/pages/background/'
+import UserLogin from '@/pages/user/login';
+import { Link, history } from 'umi';
+import {UserInfoRequest} from '@/services/users/user'
+import {LogoutByFe, SaveUserInfo} from "@/components/user/user";
 
-const isDev = process.env.NODE_ENV === 'development';
-const loginPath = '/user/login';
+let authorRouters = [];
+
+function parseRoutes(authorRouters: []) {
+
+  if (authorRouters) {
+    return authorRouters.map((item) => ({
+      path: `/category/${item.path}`,
+      name: item.name,
+      component: BackgroundComponent,
+      routes: []
+    }));
+  }
+  return [];
+}
+
+export function patchRoutes({ routes }) {
+  parseRoutes(authorRouters).forEach((item) => {
+    routes[0].routes.push(item);
+  });
+
+  for (const i in routes[0].routes) {
+    try {
+      routes[0].routes[i].routes.push({
+        key: routes[0].routes[i].name,
+        path: `/category/${routes[0].routes[i].name}/article/:articleId`,
+        hideInMenu: true,
+        component: BackgroundComponent,
+      })
+    }catch (err) {
+    }
+  }
+
+  routes[0].routes.push({
+    path: "/tags/:tagName",
+    name: "/tags/:tagName",
+    hideInMenu: true,
+    component: BackgroundComponent,
+  })
+
+  routes[0].routes.push({
+    path: "/search/:content",
+    name: "/search/:content",
+    hideInMenu: true,
+    component: BackgroundComponent,
+  })
+
+  routes[0].routes.push({
+    path: "/user/login",
+    name: "/user/login",
+    hideInMenu: true,
+    component: UserLogin,
+    layout: false
+  })
+
+  routes[0].routes.push({
+    path: "/users/settings",
+    name: "/users/settings",
+    hideInMenu: true,
+    component: BackgroundComponent,
+  })
+
+  const defaultPath = routes[0].routes[0].path
+
+  routes[0].routes.push({
+    path: "/",
+    hideInMenu: true,
+    redirect: defaultPath,
+    exact: true
+  })
+}
+
+
+export const render = async (oldRoutes: any) => {
+  const result = await HeaderTopRoutersRequest();
+
+  if (result.success) {
+    const data = result.data.list;
+    for (const item of data) {
+      authorRouters.push({
+        path: item.name,
+        name: item.name,
+      });
+    }
+    oldRoutes();
+  }
+}
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
@@ -21,63 +109,71 @@ export const initialStateConfig = {
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
   currentUser?: API.CurrentUser;
+  loading?: boolean;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
+
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser();
-      return msg.data;
+      const msg = await UserInfoRequest();
+      const data = msg.data.list;
+      SaveUserInfo(data)
+      return data;
     } catch (error) {
-      history.push(loginPath);
+      LogoutByFe()
     }
     return undefined;
   };
-  // 如果是登录页面，不执行
-  if (history.location.pathname !== loginPath) {
+
+  if (history.location.pathname !== "/users/login") {
     const currentUser = await fetchUserInfo();
     return {
       fetchUserInfo,
       currentUser,
-      settings: {},
+      settings: defaultSettings,
     };
   }
-  return {
-    fetchUserInfo,
-    settings: {},
-  };
+    return {
+      fetchUserInfo,
+      settings: defaultSettings,
+    };
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState }) => {
+export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+
+  const handlerCurrentDom = (newPath?: string) => {
+    const currentPath = window.location.pathname;
+
+    // 如果连续点击一个content-path多次
+    if (currentPath == newPath) {
+      window.location.href = newPath;
+    }
+
+    // 如果是文章详情想点击自己的父路由
+    const patentCategory = newPath?.split('/')[2];
+    const childrenCategory = currentPath.split('/')[2];
+
+    if (patentCategory == childrenCategory) {
+      window.location.href = newPath;
+    }
+  }
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     waterMarkProps: {
-      content: initialState?.currentUser?.name,
+      content: "FANTASY",
+    },
+    onMenuHeaderClick: (e: React.MouseEvent<HTMLDivElement>) =>  {
+      window.location.href = "/"
+    },
+    menuItemRender: (item, dom) => {
+      return <Link onClick={ () => handlerCurrentDom(item.path)} to={item.path}>{dom}</Link>
     },
     footerRender: () => <Footer />,
-    onPageChange: () => {
-      const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
-    },
-    links: isDev
-      ? [
-          <Link to="/umi/plugin/openapi" target="_blank">
-            <LinkOutlined />
-            <span>OpenAPI 文档</span>
-          </Link>,
-          <Link to="/~docs">
-            <BookOutlined />
-            <span>业务组件文档</span>
-          </Link>,
-        ]
-      : [],
+    links:  [],
     menuHeaderRender: undefined,
-    // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
+    title: "FANTASY",
     ...initialState?.settings,
   };
 };

@@ -2,6 +2,7 @@ package utils
 
 import (
 	"errors"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -40,4 +41,19 @@ func TimeGranularityConversion(times string) time.Duration {
 	} else {
 		return dur
 	}
+}
+
+func GetRecent7timeList() []string {
+	var result []string
+
+	array := []int{0, -1, -2, -3, -4, -5, -6}
+	currentTime := time.Now()
+
+	for _, n := range array {
+		beforeTimeFormat := currentTime.AddDate(0, 0, n).Format("2006-01-02")
+		result = append(result, beforeTimeFormat)
+	}
+
+	sort.Strings(result)
+	return result
 }

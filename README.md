@@ -70,6 +70,7 @@ A lightweight and general-purpose open source blog project
 
 
 # 关于部署
+1、nginx
 ```
 server {
 
@@ -127,4 +128,21 @@ server {
     server_name 你的域名;
     return 301 https://$host$request_uri;
 }
+```
+2、前端
+前端分为三个项目，只需要进入对应的项目目录执行``tyarn build``即可
+
+3、后端
+后端执行`` go build ``即可
+后端部署配置文件
+```
+[supervisord]
+
+[program:fantasy]
+directory=/devops/app/fantasy/project/fantasy-api
+command=/devops/app/fantasy/project/fantasy-api/fantasy-api
+autostart=true
+user=root
+redirect_stderr=true
+stdout_logfile=/devops/app/fantasy/project/fantasy-api/fantasy-api.log
 ```

@@ -74,6 +74,19 @@ A lightweight and general-purpose open source blog project
 <img width="1675" alt="image" src="https://user-images.githubusercontent.com/88186802/182017833-c66d896b-f67b-484d-81bc-83ef87d61c4d.png">
 
 
+# 后台侧
+<img width="1679" alt="image" src="https://user-images.githubusercontent.com/88186802/182018879-e0eaad24-f637-4223-9aea-4c46b589088f.png">
+
+<img width="1666" alt="image" src="https://user-images.githubusercontent.com/88186802/182018935-82b518b0-e992-4dab-baea-22b5dc3a5e9f.png">
+
+<img width="1261" alt="image" src="https://user-images.githubusercontent.com/88186802/182018952-804d6f3e-8ffe-4cd5-8eb0-704d2767e994.png">
+
+<img width="1674" alt="image" src="https://user-images.githubusercontent.com/88186802/182018963-f93dfc3e-0ef6-435c-84ca-20f45666aef0.png">
+
+<img width="1651" alt="image" src="https://user-images.githubusercontent.com/88186802/182018976-c2370453-d8aa-48a7-bbdf-125cbe1250ca.png">
+
+<img width="1670" alt="image" src="https://user-images.githubusercontent.com/88186802/182018985-d74c4103-4f1e-4964-911b-8410de382d57.png">
+
 # 关于部署
 1、nginx
 ```

@@ -146,3 +146,6 @@ user=root
 redirect_stderr=true
 stdout_logfile=/devops/app/fantasy/project/fantasy-api/fantasy-api.log
 ```
+``
+supervisord -c supervisord.conf
+``

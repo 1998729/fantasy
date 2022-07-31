@@ -24,8 +24,8 @@ import { TagListRequest } from '@/services/tag';
 import RemoteTransfer from '@/components/custom/remoteTransfer';
 
 const OSS = require('ali-oss');
-const AccessKey = 'LTAI5t8LtTRTLvMQrWcTZLt3';
-const AccessKeySecret = 'Ve1Qr0fIkYoQlXRCgl7XznqF7wKbgS';
+const AccessKey = '';
+const AccessKeySecret = '';
 const domain = 'http://ay-blog-oss.oss-accelerate.aliyuncs.com';
 const { Option } = Select;
 

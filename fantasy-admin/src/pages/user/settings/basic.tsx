@@ -4,8 +4,8 @@ import {UserInfoRequest, UserUpdateRequest} from '@/services/users/user'
 import {useState} from "react";
 
 const OSS = require('ali-oss');
-const AccessKey = 'LTAI5t8LtTRTLvMQrWcTZLt3';
-const AccessKeySecret = 'Ve1Qr0fIkYoQlXRCgl7XznqF7wKbgS';
+const AccessKey = '';
+const AccessKeySecret = '';
 const domain = 'http://ay-blog-oss.oss-accelerate.aliyuncs.com';
 
 const client = new OSS({

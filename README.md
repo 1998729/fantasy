@@ -1,6 +1,13 @@
 # fantasy
 A lightweight and general-purpose open source blog project
 
+使用前后端分离开发的一个轻量级博客平台， 支持PC、H5端， 整个项目分为了4个项目 
+- admin 前端后台管理项目
+- api 后端项目
+- h5 手机端前端项目
+- fe pc端端项目
+
+
 欢迎使用 [FANTASY](https://igolang.cn/)
 
 # 功能概览
@@ -49,3 +56,64 @@ A lightweight and general-purpose open source blog project
 
 ## 注册页
 <img width="1675" alt="image" src="https://user-images.githubusercontent.com/88186802/182017833-c66d896b-f67b-484d-81bc-83ef87d61c4d.png">
+
+
+# 关于部署
+```
+server {
+
+    listen 443 ssl;
+    server_name 你的域名;
+    ssl_certificate /etc/nginx/igolang.cn_nginx/igolang.cn_bundle.crt;
+    ssl_certificate_key /etc/nginx/igolang.cn_nginx/igolang.cn.key;
+    ssl_session_timeout 5m;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;
+    ssl_prefer_server_ciphers on;
+    gzip on;
+    gzip_min_length 1k;
+    gzip_comp_level 9;
+    gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;
+    gzip_vary on;
+    gzip_disable "MSIE [1-6]\.";
+    client_max_body_size 64M;
+
+    location / {
+        if ($http_user_agent ~* '(iPhone|iPod|incognito|webmate|Android|dream|CUPCAKE|froyo|BlackBerry|webOS|s8000|bada|IEMobile|Googlebot\-Mobile|AdsBot\-Google)' ) {
+            rewrite ^/(.*) https://你的域名/h5/$1 permanent;
+        }
+
+        root /usr/share/nginx/html/fe/;
+        try_files $uri $uri/ /index.html;
+    }
+
+    location ^~ /h5 {
+        root /usr/share/nginx/html;
+        index index.html;
+        try_files $uri /h5/index.html;
+    }
+
+    location ^~ /admin {
+        alias /usr/share/nginx/html/admin;
+        index index.html;
+        try_files $uri $uri/ /admin/index.html;
+    }
+
+    location /api/ {
+        proxy_http_version 1.1;
+        proxy_set_header REMOTE_ADDR     $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_pass http://127.0.0.1:8000;
+    }
+}
+
+server {
+    listen 80;
+    server_name 你的域名;
+    return 301 https://$host$request_uri;
+}
+```

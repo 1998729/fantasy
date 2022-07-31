@@ -5,8 +5,11 @@ A lightweight and general-purpose open source blog project
 
 ## 用户侧功能
 1、用户浏览页面支持后台动态路由菜单分类；
+
 2、支持文章置顶后首页采用轮播图；
+
 3、支持用户登录注册、信息修改、找回密码等；
+
 4、热门文章右侧展示
 5、热门评论右侧展示
 6、文章标签右侧展示

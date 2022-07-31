@@ -27,6 +27,11 @@ A lightweight and general-purpose open source blog project
 10、支持与该文章发布的作者进行1by1私信，并且消息会及时发送给作者(通过邮件)，作者回复之后也是通过邮件发给用户
 
 ## 后台侧功能
+- Dashboard  
+- 资产管理
+- 用户管理
+- 审计管理
+
 
 # 技术栈
 1、采用前后端分离式开发

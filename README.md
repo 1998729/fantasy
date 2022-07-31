@@ -52,11 +52,11 @@ A lightweight and general-purpose open source blog project
 6、登录日志、操作日志审计， 包括黑名单配制.
 
 # 技术栈
-1、antd pro 
-2、antd mobile
-3、beego
-4、mysql
-5、redis
+- antd pro 
+- antd mobile
+- beego
+- mysql
+- redis
 
 # 用户侧
 

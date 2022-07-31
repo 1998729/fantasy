@@ -1,7 +1,7 @@
 # fantasy
 A lightweight and general-purpose open source blog project
 
-欢迎使用 [点我]([https://pages.github.com/](https://igolang.cn/))
+欢迎使用 [GitHub Pages](https://pages.github.com/)
 
 # 功能概览
 
